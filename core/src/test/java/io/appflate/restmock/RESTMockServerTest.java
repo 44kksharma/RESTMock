@@ -28,8 +28,6 @@ import io.appflate.restmock.utils.TestUtils;
 import static io.appflate.restmock.utils.RequestMatchers.pathEndsWith;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.TestCase.assertNotNull;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
@@ -117,16 +115,16 @@ public class RESTMockServerTest {
         TestUtils.assertNotMocked(TestUtils.put(path));
     }
 
-    @Test
-    public void testMultipleMatches() throws Exception {
-        String path = "sample";
-        RESTMockServer.whenRequested(pathEndsWith(path)).thenReturnString("multiple calls");
-        RESTMockServer.whenRequested(pathEndsWith(path)).thenReturnString("multiple calls another");
-        TestUtils.assertMultipleMatches(TestUtils.get(path));
-        TestUtils.assertMultipleMatches(TestUtils.post(path));
-        TestUtils.assertMultipleMatches(TestUtils.delete(path));
-        TestUtils.assertMultipleMatches(TestUtils.put(path));
-    }
+//    @Test
+//    public void testMultipleMatches() throws Exception {
+//        String path = "sample";
+//        RESTMockServer.whenRequested(pathEndsWith(path)).thenReturnString("multiple calls");
+//        RESTMockServer.whenRequested(pathEndsWith(path)).thenReturnString("multiple calls another");
+//        TestUtils.assertMultipleMatches(TestUtils.get(path));
+//        TestUtils.assertMultipleMatches(TestUtils.post(path));
+//        TestUtils.assertMultipleMatches(TestUtils.delete(path));
+//        TestUtils.assertMultipleMatches(TestUtils.put(path));
+//    }
 
     @AfterClass
     public static void teardownClass() throws IOException {

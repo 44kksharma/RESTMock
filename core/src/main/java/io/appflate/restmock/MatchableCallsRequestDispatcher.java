@@ -16,14 +16,14 @@
 
 package io.appflate.restmock;
 
-import okhttp3.mockwebserver.Dispatcher;
-import okhttp3.mockwebserver.MockResponse;
-import okhttp3.mockwebserver.RecordedRequest;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.LinkedList;
 import java.util.List;
+
+import okhttp3.mockwebserver.Dispatcher;
+import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.RecordedRequest;
 
 class MatchableCallsRequestDispatcher extends Dispatcher {
     private List<MatchableCall> matchableCalls;
@@ -43,9 +43,14 @@ class MatchableCallsRequestDispatcher extends Dispatcher {
             return matchedRequests.get(0).response;
         } else if (matchedRequests.size() > 1) {
             String message = prepareTooManyMatchesMessage(recordedRequest, matchedRequests);
-            RESTMockServer.logger.error("<- Response ERROR:\t" + message);
-            return createErrorResponse(
-                    new IllegalStateException(message));
+            RESTMockServer.logger.log("<- Response :\t" + message);
+
+            MockResponse mockResponse = matchedRequests.get(matchedRequests.size() - 1).response;
+            RESTMockServer.logger.log("<- Final Response :\t" + mockResponse);
+            return mockResponse;
+
+//            return createErrorResponse(
+//                    new IllegalStateException(message));
         } else {
             RESTMockServer.logger.error("<- Response ERROR:\t" + RESTMockServer.RESPONSE_NOT_MOCKED + ": " + recordedRequest);
             MockResponse mockResponse =

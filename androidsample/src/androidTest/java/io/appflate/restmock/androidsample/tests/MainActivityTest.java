@@ -26,9 +26,7 @@ import io.appflate.restmock.RESTMockServer;
 import io.appflate.restmock.RequestsVerifier;
 import io.appflate.restmock.androidsample.pageobjects.MainActivityPageObject;
 import io.appflate.restmock.androidsample.view.activities.MainActivity;
-import io.appflate.restmock.utils.RequestMatchers;
 
-import static io.appflate.restmock.RequestsVerifier.verifyRequest;
 import static io.appflate.restmock.utils.RequestMatchers.pathEndsWith;
 
 /**
@@ -52,6 +50,8 @@ public class MainActivityTest {
         pageObject = new MainActivityPageObject();
         //be sure to reset it before each test!
         RESTMockServer.reset();
+        RESTMockServer.whenGET(pathEndsWith(USERNAME_ANDRZEJCHM)).thenReturnFile(404,
+                PATH_USER_NOT_FOUND);
     }
 
     @Test
@@ -68,8 +68,10 @@ public class MainActivityTest {
 
     @Test
     public void testNotFound() throws Exception {
-        RESTMockServer.whenGET(pathEndsWith(USERNAME_ANDRZEJCHM)).thenReturnFile(404,
-                PATH_USER_NOT_FOUND);
+//        RESTMockServer.whenGET(pathEndsWith(USERNAME_ANDRZEJCHM)).thenReturnFile(404,
+//                PATH_USER_NOT_FOUND);
+
+       // RESTMockServer.whenGET(pathEndsWith(USERNAME_ANDRZEJCHM)).thenReturnString(200,"{empty response}");
         //launches activity with default intent
         rule.launchActivity(null);
         pageObject.typeUsername(USERNAME_ANDRZEJCHM);

@@ -53,3 +53,15 @@ dependencies {
     compile 'com.android.support.test:rules:0.4.1'
     compile 'com.android.support.test:runner:0.4.1'
 }
+task clearJar(type: Delete) {
+    delete 'build/libs/' + POM_ARTIFACT_ID + '_' + VERSION_NAME + '.jar'
+}
+
+task makeJar(type: Copy) {
+    from('build/intermediates/bundles/release/')
+    into('build/')
+    include('classes.jar')
+    rename ('classes.jar', POM_ARTIFACT_ID + '_' +  VERSION_NAME + '.jar')
+}
+
+makeJar.dependsOn(clearJar, build)
